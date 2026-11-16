@@ -159,3 +159,28 @@ function parseDuration(duration){
  $("more").style.display=nextPageToken?"inline-block":"none";
  $("status").textContent="Showing filtered public videos from YouTube.";
 }
+ 
+async function start(){
+ if(!YOUTUBE_API_KEY) return;
+ $("status").textContent="Connecting to your YouTube channel...";
+ try{
+  await loadChannel();
+  await loadPage();
+ }catch(e){
+  $("status").textContent="Could not connect: "+e.message;
+ }
+}
+
+$("more").addEventListener("click",async()=>{
+ $("more").disabled=true;
+ try{
+  await loadPage();
+ }catch(e){
+  $("status").textContent=e.message;
+ }finally{
+  $("more").disabled=false;
+ }
+});
+
+start();
+              </script></body></html>
